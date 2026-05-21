@@ -1,0 +1,33 @@
+services:
+  app:
+    build: .
+    container_name: myApp
+    env_file:
+      - .env
+    ports:
+    - "81:80"
+    networks:
+      - myNetwork
+    depends_on:
+      - postgres
+  
+
+  postgres:
+    image: postgres:alpine
+    container_name: myPostgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: rahasia
+      POSTGRES_DB: mydb
+    volumes:
+      - ./postgres-data:/var/lib/postgresql
+    networks:
+      - myNetwork
+  
+
+
+
+networks: 
+ myNetwork:
+   driver: bridge
+   name: myNetwork
